@@ -1,14 +1,15 @@
 PROJECT=router
-SOURCES=router.c lib/queue.c lib/list.c lib/lib.c
-LIBRARY=nope
+CSOURCES=lib/lib.c
+CPPSOURCES=router.cpp
 INCPATHS=include
 LIBPATHS=.
 LDFLAGS=
-CFLAGS=-c -Wall -Werror -Wno-error=unused-variable
+CFLAGS=-c -Wall -Werror -Wno-error=unused-variable -g
 CC=gcc
+CXX=g++
 
 # Automatic generation of some important lists
-OBJECTS=$(SOURCES:.c=.o)
+OBJECTS=$(CSOURCES:.c=.o) $(CPPSOURCES:.cpp=.o)
 INCFLAGS=$(foreach TMP,$(INCPATHS),-I$(TMP))
 LIBFLAGS=$(foreach TMP,$(LIBPATHS),-L$(TMP))
 
@@ -18,7 +19,10 @@ BINARY=$(PROJECT)
 all: $(SOURCES) $(BINARY)
 
 $(BINARY): $(OBJECTS)
-	$(CC) $(LIBFLAGS) $(OBJECTS) $(LDFLAGS) -o $@
+	$(CXX) $(LIBFLAGS) $(OBJECTS) $(LDFLAGS) -o $@
+
+.cpp.o:
+	$(CXX) -std=c++17 $(INCFLAGS) $(CFLAGS) -fPIC $< -o $@
 
 .c.o:
 	$(CC) $(INCFLAGS) $(CFLAGS) -fPIC $< -o $@
@@ -27,7 +31,7 @@ clean:
 	rm -rf $(OBJECTS) router hosts_output router_*
 
 run_router0: all
-	./router rtable0.txt rr-0-1 r-0 r-1
+	valgrind ./router rtable0.txt rr-0-1 r-0 r-1
 
 run_router1: all
 	./router rtable1.txt rr-0-1 r-0 r-1

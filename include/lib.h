@@ -9,6 +9,10 @@
 #define MAX_PACKET_LEN 1600
 #define ROUTER_NUM_INTERFACES 3
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int send_to_link(int interface, char *frame_data, size_t length);
 
 /*
@@ -28,7 +32,7 @@ struct route_table_entry {
 	uint32_t next_hop;
 	uint32_t mask;
 	int interface;
-} __attribute__((packed));
+};
 
 /* ARP table entry when skipping the ARP exercise */
 struct arp_entry {
@@ -88,13 +92,17 @@ int parse_arp_table(char *path, struct arp_entry *arp_table);
 
 void init(int argc, char *argv[]);
 
-#define DIE(condition, message, ...) \
-	do { \
-		if ((condition)) { \
-			fprintf(stderr, "[(%s:%d)]: " # message "\n", __FILE__, __LINE__, ##__VA_ARGS__); \
-			perror(""); \
-			exit(1); \
-		} \
+#ifdef __cplusplus
+}
+#endif
+
+#define DIE(condition, message, ...)															\
+	do {																						\
+		if ((condition)) {																		\
+			fprintf(stderr, "[(%s:%d)]: " # message "\n", __FILE__, __LINE__, ##__VA_ARGS__);	\
+			perror("");																			\
+			exit(1);																			\
+		}																						\
 	} while (0)
 
 #endif /* _SKEL_H_ */

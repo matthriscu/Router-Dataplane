@@ -12,7 +12,7 @@ fi
 
 rm -rf archive.zip
 sudo make clean
-zip -r archive.zip lib/ include/ *.c Makefile README
+zip -r archive.zip lib/lib.c include/lib.h include/protocols.h *.cpp Makefile README
 if [ -f arp_table.txt ]; then
     zip archive.zip arp_table.txt
 fi
