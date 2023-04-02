@@ -4,7 +4,7 @@ CPPSOURCES=router.cpp
 INCPATHS=include
 LIBPATHS=.
 LDFLAGS=
-CFLAGS=-c -Wall -Werror -Wno-error=unused-variable -g
+CFLAGS=-c -Wall -Werror -Wno-error=unused-variable
 CC=gcc
 CXX=g++
 

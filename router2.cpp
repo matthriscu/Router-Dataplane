@@ -25,11 +25,11 @@ private:
 
 public:
 	void insert(route_table_entry e) {
-		uint32_t key = ntohl(e.prefix & e.mask), bit = 1 << 31;
+		uint32_t key = ntohl(e.prefix & e.mask);
 		size_t key_len = __builtin_popcount(e.mask);
 		Node *current = root;
 
-		for (size_t i = 0; i < key_len; ++i, bit >>= 1) {
+		for (size_t i = 0, bit = 1 << 31; i < key_len; ++i, bit >>= 1) {
 			if (!current->next[(key & bit) != 0])
 				current->next[(key & bit) != 0] = new Node;
 			current = current->next[(key & bit) != 0];
@@ -158,6 +158,8 @@ void handle_icmp_packet(char *buf) {
 }
 
 void icmp_err(char *buf, uint8_t type) {
+	cerr << "here\n";
+
 	iphdr *ip_hdr = (iphdr *)(buf + sizeof(ethhdr));
 	icmphdr *icmp_hdr = (icmphdr *)(buf + sizeof(ethhdr) + sizeof(iphdr));
 
