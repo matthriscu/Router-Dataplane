@@ -1,10 +1,10 @@
 #ifndef _SKEL_H_
 #define _SKEL_H_
 
-#include <unistd.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #define MAX_PACKET_LEN 1600
 #define ROUTER_NUM_INTERFACES 3
@@ -20,7 +20,7 @@ int send_to_link(int interface, char *frame_data, size_t length);
  * be received.
  *
  * @param frame_data - region of memory in which the data will be copied; should
- *        have at least MAX_PACKET_LEN bytes allocated 
+ *        have at least MAX_PACKET_LEN bytes allocated
  * @param length - will be set to the total number of bytes received.
  * Returns: the interface it has been received from.
  */
@@ -28,16 +28,16 @@ int recv_from_any_link(char *frame_data, size_t *length);
 
 /* Route table entry */
 struct route_table_entry {
-	uint32_t prefix;
-	uint32_t next_hop;
-	uint32_t mask;
-	int interface;
+  uint32_t prefix;
+  uint32_t next_hop;
+  uint32_t mask;
+  int interface;
 };
 
 /* ARP table entry when skipping the ARP exercise */
 struct arp_entry {
-    uint32_t ip;
-    uint8_t mac[6];
+  uint32_t ip;
+  uint8_t mac[6];
 };
 
 char *get_interface_ip(int interface);
@@ -96,13 +96,14 @@ void init(int argc, char *argv[]);
 }
 #endif
 
-#define DIE(condition, message, ...)															\
-	do {																						\
-		if ((condition)) {																		\
-			fprintf(stderr, "[(%s:%d)]: " # message "\n", __FILE__, __LINE__, ##__VA_ARGS__);	\
-			perror("");																			\
-			exit(1);																			\
-		}																						\
-	} while (0)
+#define DIE(condition, message, ...)                                           \
+  do {                                                                         \
+    if ((condition)) {                                                         \
+      fprintf(stderr, "[(%s:%d)]: " #message "\n", __FILE__, __LINE__,         \
+              ##__VA_ARGS__);                                                  \
+      perror("");                                                              \
+      exit(1);                                                                 \
+    }                                                                          \
+  } while (0)
 
 #endif /* _SKEL_H_ */
