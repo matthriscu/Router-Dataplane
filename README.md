@@ -1,5 +1,3 @@
-Matei Hriscu, 321 CA
-
 # Router Dataplane
 
 Before processing packets, the router generates its routing table from the file
